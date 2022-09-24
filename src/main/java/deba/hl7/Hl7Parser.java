@@ -7,6 +7,7 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v22.datatype.PN;
 import ca.uhn.hl7v2.model.v22.message.ADT_A01;
 import ca.uhn.hl7v2.model.v22.segment.MSH;
+import ca.uhn.hl7v2.model.v22.segment.PID;
 import ca.uhn.hl7v2.parser.EncodingNotSupportedException;
 import ca.uhn.hl7v2.parser.Parser;
 
@@ -14,8 +15,8 @@ public class Hl7Parser {
 
     public static void main(String[] args) {
         String msg = "MSH|^~\\&|EPIC|4.324.23.12.113884.44.5189.10^Eren Health Clinics|JEROME||30461918215050|AUTO|ADT^A01||P|2.2|||||||||||\r"
-                + "EVN|A08|30461918215050||REG_UPDATE|AUTO^SYSTEM^AUTO^^^^^^BELHE^^^^^|||"
-                + "PID|1||100001^^^^^4.324.23.12.113884.44.5189.10~E11474907^^^^^4.324.23.12.113884.44.5189.10||PINCER^BINTO^HIGEKU^^^^||19141231|Female|PINCER^BINTO^^~PINCER^BINTO^S^~DIBLE^BINTO^S^~DIBLE^BINTO^HIGEKU^|White|6839 42ND ST^^SAN JUAN ISLAND^WA^54110^USA^C^^CALUMET|CALUMET|(408)-197-7183^PRN^7^^^920^5880050||English|Single|2550 StoneBech||221-32-4244|||NON-HISPANIC OR LATINO||||||||N|||||||||\r";
+                
+                + "PID|1||100001^^^^^4.324.23.12.113884.44.5189.10~E11474907^^^^^4.324.23.12.113884.44.5189.10||PINCER^BINTO^HIGEKU^^^^||19141231|Female|PINCER^BINTO^^~PINCER^BINTO^S^~DIBLE^BINTO^S^~DIBLE^BINTO^HIGEKU^|White|6839 42ND ST^^SAN JUAN ISLAND^WA^54110^USA^C^^CALUMET|CALUMET|197-7183^PRN^7^^^920^5880050||English|Single|2550 StoneBech||221-32-4244|||NON-HISPANIC OR LATINO||||||||N|||||||||\r";
 
         HapiContext context = new DefaultHapiContext();
         Parser p = context.getGenericParser();
@@ -46,12 +47,23 @@ public class Hl7Parser {
         String sendFacility = msh.getSendingFacility().getValue();
         System.out.println(msgType + " " + msgTrigger + sendFacility);
 
-        // parsing pid
-        PN patientName = adtMsg.getPID().getPatientName();
 
-        // output null
-        String familyName = patientName.getFamilyName().getValue();
-        System.out.println(familyName);
+        PN pid = adtMsg.getPID().getPatientName();
+
+        String familyName = pid.getFamilyName().getValue();
+        //output PINCER
+        
+
+        String givenName = pid.getGivenName().getValue();
+        //output BINTO
+        
+        String extraName = pid.getMiddleInitialOrName().getValue();
+        
+
+        //output The Patient name family name, given name and extraName are PINCER,BINTO and HIGEKU ,respectively
+        System.out.printf("The Patient name family name, given name and extraName are %s,%s and %s ,respectively",familyName,givenName,extraName);
+
+        
 
     }
 }
