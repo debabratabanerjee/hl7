@@ -36,16 +36,22 @@ public class Hl7Parser {
 
         MSH msh = adtMsg.getMSH();
 
+
+        //parsing msh
+
+        //output ADT
         String msgType = msh.getMessageType().getMessageType().getValue();
+        //output A01
         String msgTrigger = msh.getMessageType().getTriggerEvent().getValue();
+        //output 4.324.23.12.113884.44.5189.10
         String sendFacility = msh.getSendingFacility().getValue();
         System.out.println(msgType + " " + msgTrigger+ sendFacility);
 
       
-
+        //parsing pid
         PN patientName = adtMsg.getPID().getPatientName();
 
-        
+        //output null
         String familyName = patientName.getFamilyName().getValue();
         System.out.println(familyName);
 
