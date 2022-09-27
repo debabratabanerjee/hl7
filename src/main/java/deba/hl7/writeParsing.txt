@@ -1,0 +1,35 @@
+ Patient: null F
+ null F
+Patient: JAMES,  WILLIAM  T.                        DOB: 04/08/2353              MR #: 44388 null F
+ null F
+Order Number: NCC80102A   Type: XRAY Hand LEFT null F
+ null F
+001-02-0003 null F
+ null F
+LEFT HAND RADIOGRAPHS null F
+ null F
+ CLINICAL INFORMATION: Trigger thumb. null F
+ null F
+ COMPARISON STUDIES: No comparison studies are available at this time. null F
+ null F
+ TECHNIQUE: AP, lateral and oblique radiographs of left hand. null F
+ null F
+ INTERPRETATION: null F
+ Bones: Incidentally noted is a corticated ossification off of the ulnar styloid null F
+ in keeping with remote avulsion injury or an accessory ossification center. null F
+ Joints: Joint narrowing and osteophytic spurring along the thumb CMC. null F
+ Other structures: Normal. null F
+ null F
+ IMPRESSION: null F
+ Degenerative changes of the thumb CMC. null F
+ null F
+ Donald L. Renfrew, M.D. null F
+ Radiology Associates of the Fox Valley null F
+ RAFVDC null F
+ I.2 null F
+ null F
+ null F
+Dictated By: Renfrew,Donald L MD                Dictated Date/Time: 12/28/2402 1110 null F
+ null F
+ESigned By: Renfrew,Donald L MD                ESigned Date Time: 12/28/2402 1210 null F
+ null F

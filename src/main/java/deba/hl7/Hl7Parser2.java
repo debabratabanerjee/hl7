@@ -43,12 +43,12 @@ public class Hl7Parser2 {
 
             //for OBX
 
-            for (int i = 0; i < 12; i++) {
-                terserExpression = "/.OBX(i)-5-1";
+            // for (int i = 0; i < 12; i++) {
+                terserExpression = "/.OBSERVATION(2)/OBX-5";
                 dataRetrieved = terserHelper.getData(terserExpression);
                 System.out.printf("Field 5 and Component 2 of the PID segment using expression '%s' was: '%s' \n\n", terserExpression, dataRetrieved);
                 
-            }
+            // }
                   
             
             

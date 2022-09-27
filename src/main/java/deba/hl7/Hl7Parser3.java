@@ -1,44 +1,64 @@
-// package deba.hl7;
+package deba.hl7;
 
-// import ca.uhn.hl7v2.model.Message;
-// import ca.uhn.hl7v2.model.Varies;
-// import ca.uhn.hl7v2.model.v23.group.ORF_R02_QUERY_RESPONSE;
-// import ca.uhn.hl7v2.model.v23.group.ORU_R01_OBSERVATION;
-// import ca.uhn.hl7v2.model.v23.group.ORU_R01_ORDER_OBSERVATION;
-// import ca.uhn.hl7v2.model.v23.message.ORU_R01;
-// import ca.uhn.hl7v2.parser.PipeParser;
-// import ca.uhn.hl7v2.model.v23.segment.MSH;
-// import ca.uhn.hl7v2.model.v23.segment.OBR;
-// import ca.uhn.hl7v2.model.v23.segment.OBX;
-// import ca.uhn.hl7v2.model.v23.segment.VAR;
+    import java.nio.file.Files;
+    import java.nio.file.Paths;
+    import ca.uhn.hl7v2.model.Message;
+    import ca.uhn.hl7v2.parser.PipeParser;
+    import ca.uhn.hl7v2.util.Terser;
 
-// /**
-//  * Hl7Parser3
-//  */
-// public class Hl7Parser3 {
 
-//     PipeParser pipeParser = new PipeParser();
+public class Hl7Parser3 {
+
     
-//     Message message = pipeParser.parse(m);
-//     ORU_R01 oru = (ORU_R01) message;
-//     MSH msh = oru.getMSH();
-//     String sendingApp = msh.getSendingApplication().encode();
-//     String sendingFacility = msh.getSendingFacility().encode();
 
-//     for (ORF_R02_QUERY_RESPONSE response : oru.getRESPONSEAll()) {
-//         for (ORU_R01_ORDER_OBSERVATION orderObservation : response.getORDER_OBSERVATIONAll()) {
-//             OBR obr = orderObservation.getOBR();
-//             String fillerOrderNumber = obr.getObr3_FillerOrderNumber().encode();
-//             for (ORU_R01_OBSERVATION observation : orderObservation.getOBSERVATIONAll()) {
-//                 OBX obx = observation.getOBX();
-//                 String type = obx.getObx3_ObservationIdentifier().getCe2_Text().getValue();
-//                 String status = obx.getObservResultStatus().getValue();
-//                 for (Varies varies : obx.getObx5_ObservationValue()) {
-//                     String value = varies.encode();
-//                     System.out.println(value + " " + type + " " +status);
-//                   }
+    public static void main(String[] args) {
 
-//                 }
-//             }
-//         }}}
+        try {
 
+            //see my GitHub page for this file
+            String messageString = readHL7MessageFromFileAsString("src\\main\\java\\deba\\hl7\\subra.hl7");
+
+            // instantiate a PipeParser, which handles the "traditional or default encoding"
+            PipeParser ourPipeParser = new PipeParser();
+
+            // parse the message string into a Java message object
+            Message orderResultsHl7Message = ourPipeParser.parse(messageString);
+
+            //create a terser object instance by wrapping it around the message object
+            Terser terser = new Terser(orderResultsHl7Message);
+
+            //now, let us do various operations on the message
+            OurTerserHelper terserDemonstrator = new OurTerserHelper(terser);
+
+            String terserExpression = "/.OBSERVATION(1)/OBX-3";
+            String dataRetrieved = terserDemonstrator.getData(terserExpression);
+            System.out.printf("Observation group's 2nd OBX segment's Third field using expression '%s' was: '%s' \n\n",terserExpression, dataRetrieved);
+
+            terserExpression = "/.OBSERVATION(1)/NTE(1)-3";
+            dataRetrieved = terserDemonstrator.getData(terserExpression);
+            System.out.printf("Observation group's 2nd NTE segment's Third field using expression '%s' was: '%s' \n\n",terserExpression, dataRetrieved);
+
+            terserExpression = "/.RESPONSE/ORDER_OBSERVATION/OBSERVATION(0)/OBX(0)-16-2";
+            dataRetrieved = terserDemonstrator.getData(terserExpression);
+            System.out.printf("Observation group's First OBX segment's 16th Field and its Second component using expression '%s' was: '%s' \n\n",terserExpression, dataRetrieved);
+
+            //let us now try a set operation using the terser
+            terserExpression = "/.OBSERVATION(1)/NTE-3";
+            terserDemonstrator.setData(terserExpression,"This is our override value using the setter");
+            System.out.printf("Setting the data for second repetition of the NTE segment and its Third field\n",terserExpression, dataRetrieved);
+
+            System.out.println("\nWill display our modified message below \n");
+            System.out.println(ourPipeParser.encode(orderResultsHl7Message));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String readHL7MessageFromFileAsString(String fileName)throws Exception
+    {
+        return new String(Files.readAllBytes(Paths.get(fileName)));
+    }
+
+}
