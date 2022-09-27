@@ -11,3 +11,12 @@
 2.The given file has Version 2.5.1 and TriggerEvent of ADT_A08
   But they could not import ADT_A08 for v251, so I reduced the version and the event to 2.2 and ADT_A01 repectively for now.
 
+
+
+phn number in PID-13 sample.hl7 = (408)-355-9426^PRN^PH^^1^920^2523000^^
+
+and OBR-17 920-746-0510^^PH^^^920^746-0510~920-743-2798^^FX^^^920^743-2798
+
+OBR-32 RENFREWD^Renfrew^Donald^L^^^MD
+
+OBR-35 RENFREWD^Renfrew^Donald^L^^^MD
